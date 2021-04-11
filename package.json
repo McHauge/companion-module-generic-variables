@@ -1,0 +1,28 @@
+{
+  "name": "generic-variables",
+	"version": "0.0.1",
+	"api_version": "0.0.1",
+	"description": "Generic Variables",
+	"keywords": [
+		"Generic",
+		"Variables",
+		"Custom"
+	],
+	"manufacturer": "Generic",
+	"product": "Variables",
+	"shortname": "Variables",
+	"homepage": "https://github.com/bitfocus/companion-module-generic-variables#readme",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bitfocus/companion-module-generic-variables.git"
+	},
+	"author": "Andreas H. Thomsen <mc-hauge@hotmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/bitfocus/companion-module-generic-variables/issues"
+	}
+}
