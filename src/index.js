@@ -1,16 +1,16 @@
-const instance_skel = require('../../../instance_skel');
-const { executeAction, getActions } = require('./actions');
-const { getConfigFields } = require('./config');
-const { executeFeedback, initFeedbacks } = require('./feedback');
-const { updateVariableDefinitions, updateVariableValues, storeConfigValues } = require('./variables');
-const { updateDynamicVariableChoices } = require('./VariableChoices');
+const instance_skel = require('../../../instance_skel')
+const { executeAction, getActions } = require('./actions')
+const { getConfigFields } = require('./config')
+const { executeFeedback, initFeedbacks } = require('./feedback')
+const { updateVariableDefinitions, updateVariableValues, storeConfigValues } = require('./variables')
+const { updateDynamicVariableChoices } = require('./VariableChoices')
 
 /**
  * Companion instance class for Generic Variables
  */
 class VariablesInstance extends instance_skel {
 	constructor(system, id, config) {
-		super(system, id, config);
+		super(system, id, config)
 
 		// Default instance state
 		this.data = {
@@ -69,101 +69,98 @@ class VariablesInstance extends instance_skel {
 					bootValue: config.valueBoot10 || 'NaN',
 				},
 			],
-		};
+		}
 
 		this.storeConfigValues = storeConfigValues
-		this.updateVariableValues = updateVariableValues;
-		this.updateVariableDefinitions = updateVariableDefinitions;
-		this.config.apiPollInterval = this.config.apiPollInterval !== undefined ? this.config.apiPollInterval : 10000;
+		this.updateVariableValues = updateVariableValues
+		this.updateVariableDefinitions = updateVariableDefinitions
+		this.config.apiPollInterval = this.config.apiPollInterval !== undefined ? this.config.apiPollInterval : 10000
 		this.dynamicVariableChoices = []
 	}
 
 	// Init module
 	init() {
-		this.status(1, 'Connecting');
-		this.data.apiPollSingle = !this.config.dynPoll,
-		this.data.apiPollDynamicly = this.config.dynPoll,
-		this.storeConfigValues(this.config, this.data.variable);
+		this.status(1, 'Connecting')
+		;(this.data.apiPollSingle = !this.config.dynPoll),
+			(this.data.apiPollDynamicly = this.config.dynPoll),
+			this.storeConfigValues(this.config, this.data.variable)
 
-		updateDynamicVariableChoices.bind(this)(); // This also inits actions and feedbacks :)
-		this.updateVariableDefinitions(this.data.variable);
-		this.updateVariableValues(this.data.variable);
-		this.checkFeedbacks();
-		this.status(0, 'OK');
-		this.data.startup = false;
+		updateDynamicVariableChoices.bind(this)() // This also inits actions and feedbacks :)
+		this.updateVariableDefinitions(this.data.variable)
+		this.updateVariableValues(this.data.variable)
+		this.checkFeedbacks()
+		this.status(0, 'OK')
+		this.data.startup = false
 	}
 
 	// New config saved
 	updateConfig(config) {
-		this.config = config;
-		this.data.apiPollSingle = !this.config.dynPoll,
-		this.data.apiPollDynamicly = this.config.dynPoll,
-		this.storeConfigValues(this.config, this.data.variable);
+		this.config = config
+		;(this.data.apiPollSingle = !this.config.dynPoll),
+			(this.data.apiPollDynamicly = this.config.dynPoll),
+			this.storeConfigValues(this.config, this.data.variable)
 
-		updateDynamicVariableChoices.bind(this)(); // This also inits actions and feedbacks :)
-		this.updateVariableDefinitions(this.data.variable); 
-		this.updateVariableValues(this.data.variable);
-		this.checkFeedbacks();
-		this.status(0, 'OK');
+		updateDynamicVariableChoices.bind(this)() // This also inits actions and feedbacks :)
+		this.updateVariableDefinitions(this.data.variable)
+		this.updateVariableValues(this.data.variable)
+		this.checkFeedbacks()
+		this.status(0, 'OK')
 	}
 
 	// Set config page fields
 	config_fields() {
-		return getConfigFields.bind(this)();
+		return getConfigFields.bind(this)()
 	}
 
 	// Instance removal clean up
 	destroy() {
 		if (this.pollAPI) {
-			clearInterval(this.pollAPI);
+			clearInterval(this.pollAPI)
 		}
 
 		if (this.pollAPISingle) {
-			clearInterval(this.pollAPISingle);
+			clearInterval(this.pollAPISingle)
 		}
 
 		if (this.pollFeedback) {
-			clearInterval(this.pollFeedback);
+			clearInterval(this.pollFeedback)
 		}
 
-		this.debug('destroy', this.id);
+		this.debug('destroy', this.id)
 	}
-		
+
 	// Set available actions
 	actions() {
-		this.system.emit('instance_actions', this.id, getActions.bind(this)());
+		this.system.emit('instance_actions', this.id, getActions.bind(this)())
 	}
 
 	// Execute action
 	action(action) {
-		executeAction.bind(this)(action);
-		this.updateVariableValues(this.data.variable);
-		this.checkFeedbacks();
+		executeAction.bind(this)(action)
+		this.updateVariableValues(this.data.variable)
+		this.checkFeedbacks()
 	}
-	
+
 	// Set available feedback choices
 	init_feedbacks() {
-		const feedbacks = initFeedbacks.bind(this)();
-		this.setFeedbackDefinitions(feedbacks);
+		const feedbacks = initFeedbacks.bind(this)()
+		this.setFeedbackDefinitions(feedbacks)
 	}
 
 	// Execute feedback
 	feedback(feedback, bank) {
-		return executeFeedback.bind(this)(feedback, bank);
+		return executeFeedback.bind(this)(feedback, bank)
 	}
-
 }
 
-module.exports = VariablesInstance;
+module.exports = VariablesInstance
 
+// // Gets a list of variables and instances
+// this.system.emit('variable_get_definitions', (definitions) =>
+// 	console.log(Object.entries(definitions))
+// );
 
-
-		// // Gets a list of variables and instances
-		// this.system.emit('variable_get_definitions', (definitions) =>
-		// 	console.log(Object.entries(definitions))
-		// );
-
-		// // Gets a value of a variable from another instance
-		// this.system.emit('variable_get', 'internal' , 'time_hms' , (definitions) =>
-		// 	console.log(definitions)
-		// );
+// // Gets a value of a variable from another instance
+// this.system.emit('variable_get', 'internal' , 'time_hms' , (definitions) =>
+// 	console.log(definitions)
+// );
