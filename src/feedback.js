@@ -3,19 +3,8 @@ exports.initFeedbacks = function () {
 	var dynamicVariableChoices = self.dynamicVariableChoices
 	const feedbacks = {}
 
-	const foregroundColor = {
-		type: 'colorpicker',
-		label: 'Foreground color',
-		id: 'fg',
-		default: this.rgb(255, 255, 255),
-	}
-
-	const backgroundColorRed = {
-		type: 'colorpicker',
-		label: 'Background color ON',
-		id: 'bg1',
-		default: this.rgb(255, 0, 0),
-	}
+	const fg = self.rgb(255, 255, 255)
+	const bg = self.rgb(255, 0, 0)
 
 	var currentVariable = [
 		{ id: 0, label: this.label + ':' + this.data.variable[0].name.replace(/\s+/g, '_') },
@@ -31,8 +20,13 @@ exports.initFeedbacks = function () {
 	]
 
 	feedbacks.varMatchString = {
+		type: 'boolean',
 		label: 'Value matches a Custom String',
 		description: 'Value matches a Custom String',
+		style: {
+			color: fg,
+			bgcolor: bg
+		},
 		options: [
 			{
 				type: 'dropdown',
@@ -58,14 +52,17 @@ exports.initFeedbacks = function () {
 				label: 'Value',
 				id: 'value',
 			},
-			foregroundColor,
-			backgroundColorRed,
 		],
 	}
 
 	feedbacks.varMatchVar = {
+		type: 'boolean',
 		label: 'Value matches an other Variable',
 		description: 'Value matches a Custom String',
+		style: {
+			color: fg,
+			bgcolor: bg
+		},
 		options: [
 			{
 				type: 'dropdown',
@@ -95,8 +92,6 @@ exports.initFeedbacks = function () {
 				minChoicesForSearch: 5,
 				default: dynamicVariableChoices[0].id,
 			},
-			foregroundColor,
-			backgroundColorRed,
 		],
 	}
 
@@ -112,22 +107,22 @@ exports.executeFeedback = function (feedback, bank) {
 		switch (opt.func) {
 			case 'gt':
 				if (parseFloat(variable[opt.varSelect].value) >= opt.value) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			case 'lt':
 				if (parseFloat(variable[opt.varSelect].value) <= opt.value) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			case 'ne':
 				if (variable[opt.varSelect].value != opt.value) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			default:
 				if (variable[opt.varSelect].value == opt.value) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 		}
@@ -145,24 +140,25 @@ exports.executeFeedback = function (feedback, bank) {
 		switch (opt.func) {
 			case 'gt':
 				if (parseFloat(variable[opt.varSelect].value) >= temp) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			case 'lt':
 				if (parseFloat(variable[opt.varSelect].value) <= temp) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			case 'ne':
 				if (variable[opt.varSelect].value != temp) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 			default:
 				if (variable[opt.varSelect].value == temp) {
-					return { color: feedback.options.fg, bgcolor: feedback.options.bg1 }
+					return true
 				}
 				break
 		}
 	}
+	return false
 }
