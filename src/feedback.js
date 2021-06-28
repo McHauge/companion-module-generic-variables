@@ -25,7 +25,7 @@ exports.initFeedbacks = function () {
 		description: 'Value matches a Custom String',
 		style: {
 			color: fg,
-			bgcolor: bg
+			bgcolor: bg,
 		},
 		options: [
 			{
@@ -61,7 +61,7 @@ exports.initFeedbacks = function () {
 		description: 'Value matches a Custom String',
 		style: {
 			color: fg,
-			bgcolor: bg
+			bgcolor: bg,
 		},
 		options: [
 			{

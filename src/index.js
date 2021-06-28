@@ -76,34 +76,22 @@ class VariablesInstance extends instance_skel {
 		this.updateVariableDefinitions = updateVariableDefinitions
 		this.config.apiPollInterval = this.config.apiPollInterval !== undefined ? this.config.apiPollInterval : 10000
 		this.dynamicVariableChoices = []
-
-		// this.addUpgradeToBooleanFeedbackScript({
-		// 	'varMatchString': {
-		// 		'fg': 'color',
-		// 		'bg1': 'bgcolor',
-		// 	},
-		// 	'varMatchVar': {
-		// 		'fg': 'color',
-		// 		'bg1': 'bgcolor',
-		// 	},
-		// })
 	}
 
 	GetUpgradeScripts = function () {
 		return [
 			instance_skel.CreateConvertToBooleanFeedbackUpgradeScript({
 				varMatchString: {
-					'fg': 'color',
-					'bg1': 'bgcolor',
+					fg: 'color',
+					bg1: 'bgcolor',
 				},
 				varMatchVar: {
-					'fg': 'color',
-					'bg1': 'bgcolor',
+					fg: 'color',
+					bg1: 'bgcolor',
 				},
 			}),
 		]
 	}
-	
 
 	// Init module
 	init() {
